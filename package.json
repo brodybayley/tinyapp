@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/brodybayley/tinyapp/issues"
   },
-  "homepage": "https://github.com/brodybayley/tinyapp#readme"
+  "homepage": "https://github.com/brodybayley/tinyapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
