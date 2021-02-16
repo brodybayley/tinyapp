@@ -26,8 +26,8 @@ app.get("/urls/new", (req, res) => {
 const generateRandomString = () => Math.random().toString(36).substr(2, 6);
 
 app.post("/urls", (req, res) => {
-  let longURL = req.body.longURL;
-  let shortURL = generateRandomString();
+  const longURL = req.body.longURL;
+  const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
   res.redirect(`/urls/${shortURL}`);
 });
