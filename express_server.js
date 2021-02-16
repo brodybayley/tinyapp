@@ -42,7 +42,11 @@ app.get("/urls/:shortURL", (req, res) => {
 
 app.get("/u/:shortURL", (req, res) => {
   const longURL = urlDatabase[req.params.shortURL];
-  res.redirect(longURL);
+  if (longURL) {
+    res.redirect(longURL);
+  } else {
+    res.redirect('https://http.cat/404');
+  }
 });
 
 // app.get("/", (req, res) => {
