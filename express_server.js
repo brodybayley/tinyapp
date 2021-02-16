@@ -12,21 +12,24 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-//outputs a string with 6 random alphanumeric characters
-const generateRandomString = () => Math.random().toString(36).substr(2, 6);
 
-app.post("/urls", (req, res) => {
-  console.log(req.body);
-  res.send("Ok");
+app.get("/urls", (req, res) => {
+  const templateVars = { urls: urlDatabase };
+  res.render("urls_index", templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
-app.get("/urls", (req, res) => {
-  const templateVars = { urls: urlDatabase };
-  res.render("urls_index", templateVars);
+//outputs a string with 6 random alphanumeric characters
+const generateRandomString = () => Math.random().toString(36).substr(2, 6);
+
+app.post("/urls", (req, res) => {
+  let longURL = req.body.longURL;
+  let shortURL = generateRandomString();
+  urlDatabase[shortURL] = longURL;
+  res.redirect(`/urls/${shortURL}`);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
