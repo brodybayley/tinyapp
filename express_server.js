@@ -13,14 +13,14 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-const users = {
+const userDatabase = {
   "bobtheduck@quackmail.com": {
-    username: "duckyTheDuck",
+    name: "duckyTheDuck",
     email: "bobtheduck@quackmail.com",
     password: "quazy"
   },
   "jerrytheduck@quackmail.com": {
-    username: "quackyTheQuack",
+    name: "quackyTheQuack",
     email: "jerrytheduck@quackmail.com",
     password: "quackers"
   }
@@ -29,8 +29,8 @@ const users = {
 app.post("/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  if (username === users[email]) {
-    if (password === users[email].password) {
+  if (userDatabase[username]) {
+    if (password === userDatabase[username].password) {
       res.cookie("username", username);
       res.redirect("/urls");
     } else {

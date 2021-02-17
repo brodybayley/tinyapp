@@ -12,7 +12,9 @@
         <% if (!username) { %>
         <form class="form-inline justify-content: right" action="/login" method="POST">
           <div class="form-group mb-2">
-            <input class="form-control" type="text" name="username" placeholder="Username"
+            <input class="form-control" type="text" name="username" placeholder="Type your username"
+              style="width: 300px; margin: 1em">
+            <input class="form-control" type="password" name="password" placeholder="Type your password"
               style="width: 300px; margin: 1em">
             <button type="submit" class=" btn btn-primary">Submit</button>
           </div>
