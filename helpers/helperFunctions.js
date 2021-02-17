@@ -8,4 +8,14 @@ const emailCheck = (database, email) => {
   }
 };
 
-module.exports = { emailCheck };
+const getUserID = (database, email) => {
+  for (const registeredEmail in database) {
+    if (email === database[registeredEmail].email) {
+      return database[registeredEmail].id;
+    } else {
+      return {};
+    }
+  }
+};
+
+module.exports = { emailCheck, getUserID };

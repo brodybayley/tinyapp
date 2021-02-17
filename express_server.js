@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { emailCheck } = require('./helpers/helperFunctions');
+const { emailCheck, getUserID } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,9 +35,15 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const username = req.body.username;
-  res.cookie("username", username);
-  res.redirect("/urls");
+  const newEmail = req.body.email;
+  const newPassword = req.body.password;
+  if (emailCheck(users, newEmail) && newPassword) {
+    const userID = getUserID(users, newEmail);
+    res.cookie("user_id", userID);
+    res.redirect("/urls");
+  } else {
+    res.redirect("/login");
+  }
 });
 
 app.get("/register", (req, res) => {
