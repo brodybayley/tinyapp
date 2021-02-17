@@ -28,15 +28,12 @@ const userDatabase = {
 
 app.post("/login", (req, res) => {
   const username = req.body.username;
-  const password = req.body.password;
-  if (userDatabase[username]) {
-    if (password === userDatabase[username].password) {
-      res.cookie("username", username);
-      res.redirect("/urls");
-    } else {
-      res.redirect("/urls");
-    }
-  }
+  res.cookie("username", username);
+  res.redirect("/urls");
+});
+
+app.get("/register", (req, res) => {
+  res.render("register");
 });
 
 app.get("/urls", (req, res) => {
