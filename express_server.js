@@ -34,7 +34,6 @@ app.get("/urls", (req, res) => {
     username: req.cookies["username"]
   };
   res.render("urls_index", templateVars);
-  console.log(templateVars.username);
 });
 
 
@@ -86,6 +85,11 @@ app.post("/urls/:shortURL/edit", (req, res) => {
   res.redirect("/urls");
 });
 
+app.post("/urls/logout", (req, res) => {
+  const username = req.body.username;
+  res.clearCookie("username", username);
+  res.redirect("/urls");
+});
 // app.get("/", (req, res) => {
 //   res.send("Hello!");
 // });

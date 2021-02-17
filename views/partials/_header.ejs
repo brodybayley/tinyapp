@@ -17,10 +17,17 @@
             <button type="submit" class=" btn btn-primary">Submit</button>
           </div>
         </form>
-        <% } else { %>
-        <a>hello <%=username%></a>
-        <% } %>
       </div>
+      <% } else { %>
+      <form class="form-inline justify-content: right" action="/logout" method="POST">
+        <div>
+          <a>logged in as <%=username%></a>
+          <button type="submit" class="btn btn-primary">Logout</button>
+        </div>
+      </form>
+      <% } %>
+
+    </div>
     </div>
   </nav>
 </header>
