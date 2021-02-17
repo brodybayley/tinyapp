@@ -14,18 +14,29 @@ const urlDatabase = {
 };
 
 const users = {
-  "user1": {
-    username: "duckyTheDuck"
+  "bobtheduck@quackmail.com": {
+    username: "duckyTheDuck",
+    email: "bobtheduck@quackmail.com",
+    password: "quazy"
   },
-  "user2": {
-    username: "quackyTheQuack"
+  "jerrytheduck@quackmail.com": {
+    username: "quackyTheQuack",
+    email: "jerrytheduck@quackmail.com",
+    password: "quackers"
   }
 };
 
 app.post("/login", (req, res) => {
   const username = req.body.username;
-  res.cookie("username", username);
-  res.redirect("/urls");
+  const password = req.body.password;
+  if (username === users[email]) {
+    if (password === users[email].password) {
+      res.cookie("username", username);
+      res.redirect("/urls");
+    } else {
+      res.redirect("/urls");
+    }
+  }
 });
 
 app.get("/urls", (req, res) => {
