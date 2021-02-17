@@ -36,7 +36,6 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
-
 app.get("/urls/new", (req, res) => {
   const templateVars = {
     urls: urlDatabase,
@@ -85,11 +84,12 @@ app.post("/urls/:shortURL/edit", (req, res) => {
   res.redirect("/urls");
 });
 
-app.post("/urls/logout", (req, res) => {
+app.post("/logout", (req, res) => {
   const username = req.body.username;
   res.clearCookie("username", username);
   res.redirect("/urls");
 });
+
 // app.get("/", (req, res) => {
 //   res.send("Hello!");
 // });
