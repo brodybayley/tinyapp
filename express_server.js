@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 app.set("view engine", "ejs");
 
 const urlDatabase = {
@@ -23,13 +23,16 @@ const users = {
 };
 
 app.post("/login", (req, res) => {
-  const templateVars = { username: users };
-  res.cookie("username:", templateVars)
-  console.log(req.users)
+  const username = req.body.username;
+  res.cookie("username", username);
+  console.log(username);
   res.redirect("/urls");
 });
 
 app.get("/urls", (req, res) => {
+  const cookie = req.cookies["username"];
+  console.log(cookie);
+  console.log(req.cookies);
   const templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
