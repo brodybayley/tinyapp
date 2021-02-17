@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const { emailCheck } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +27,13 @@ const users = {
   }
 };
 
+app.get("/login", (req, res) => {
+  const templateVars = {
+    user: users[req.cookies["user_id"]]
+  };
+  res.render("login", templateVars);
+});
+
 app.post("/login", (req, res) => {
   const username = req.body.username;
   res.cookie("username", username);
@@ -43,14 +51,18 @@ app.post("/register", (req, res) => {
   const newEmail = req.body.email;
   const newPassword = req.body.password;
   const newID = generateRandomString();
-  const registerUser = {
-    id: newID,
-    email: newEmail,
-    password: newPassword
-  };
-  users[newID] = registerUser;
-  res.cookie("user_id", newID);
-  res.redirect("/urls");
+  if (newEmail === '' || newPassword === '' || emailCheck(users, newEmail)) {
+    res.redirect('https://http.cat/400');
+  } else {
+    const registerUser = {
+      id: newID,
+      email: newEmail,
+      password: newPassword
+    };
+    users[newID] = registerUser;
+    res.cookie("user_id", newID);
+    res.redirect("/urls");
+  }
 });
 
 app.get("/urls", (req, res) => {
