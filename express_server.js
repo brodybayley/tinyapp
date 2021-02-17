@@ -14,20 +14,20 @@ const urlDatabase = {
 };
 
 const users = {
-  "bobtheduck@quackmail.com": {
-    id: "duckyTheDuck",
+  "userRandomID": {
+    id: "userRandomID",
     email: "bobtheduck@quackmail.com",
     password: "quazy"
   },
-  "jerrytheduck@quackmail.com": {
-    id: "quackyTheQuack",
+  "user2RandomID": {
+    id: "user2RandomID",
     email: "jerrytheduck@quackmail.com",
     password: "quackers"
   }
 };
 
 app.post("/login", (req, res) => {
-  const username = req.body.email;
+  const username = req.body.username;
   res.cookie("username", username);
   res.redirect("/urls");
 });
@@ -40,10 +40,16 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  const id = generateRandomString();
-  res.cookie("id", id);
+  const newEmail = req.body.email;
+  const newPassword = req.body.password;
+  const newID = generateRandomString();
+  const registerUser = {
+    id: newID,
+    email: newEmail,
+    password: newPassword
+  };
+  users[newID] = registerUser;
+  res.cookie("id", newID);
   res.redirect("/urls");
 });
 
