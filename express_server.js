@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
