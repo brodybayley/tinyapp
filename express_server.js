@@ -13,9 +13,20 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-app.post("/urls/login", (req, res) => {
-  es.cookie("username", { "username": "urls/login" })
-  res.redirect("urls");
+const users = {
+  "user1": {
+    username: "duckyTheDuck"
+  },
+  "user2": {
+    username: "quackyTheQuack"
+  }
+};
+
+app.post("/login", (req, res) => {
+  const templateVars = { username: users };
+  res.cookie("username:", templateVars)
+  console.log(req.users)
+  res.redirect("/urls");
 });
 
 app.get("/urls", (req, res) => {
