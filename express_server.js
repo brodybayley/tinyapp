@@ -25,20 +25,25 @@ const users = {
 app.post("/login", (req, res) => {
   const username = req.body.username;
   res.cookie("username", username);
-  console.log(username);
   res.redirect("/urls");
 });
 
 app.get("/urls", (req, res) => {
-  const cookie = req.cookies["username"];
-  console.log(cookie);
-  console.log(req.cookies);
-  const templateVars = { urls: urlDatabase };
+  const templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  };
   res.render("urls_index", templateVars);
+  console.log(templateVars.username);
 });
 
+
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  const templateVars = {
+    urls: urlDatabase,
+    username: req.cookies["username"]
+  };
+  res.render("urls_new", templateVars);
 });
 
 //outputs a string with 6 random alphanumeric characters
@@ -54,7 +59,8 @@ app.post("/urls", (req, res) => {
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL]
+    longURL: urlDatabase[req.params.shortURL],
+    username: req.cookies["username"]
   };
   res.render("urls_show", templateVars);
 });

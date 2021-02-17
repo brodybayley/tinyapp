@@ -9,6 +9,7 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
+        <% if (!username) { %>
         <form class="form-inline justify-content: right" action="/login" method="POST">
           <div class="form-group mb-2">
             <input class="form-control" type="text" name="username" placeholder="Username"
@@ -16,6 +17,9 @@
             <button type="submit" class=" btn btn-primary">Submit</button>
           </div>
         </form>
+        <% } else { %>
+        <a>hello <%=username%></a>
+        <% } %>
       </div>
     </div>
   </nav>
