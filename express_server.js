@@ -13,14 +13,14 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-const userDatabase = {
+const users = {
   "bobtheduck@quackmail.com": {
-    name: "duckyTheDuck",
+    id: "duckyTheDuck",
     email: "bobtheduck@quackmail.com",
     password: "quazy"
   },
   "jerrytheduck@quackmail.com": {
-    name: "quackyTheQuack",
+    id: "quackyTheQuack",
     email: "jerrytheduck@quackmail.com",
     password: "quackers"
   }
@@ -33,7 +33,18 @@ app.post("/login", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.render("register");
+  const templateVars = {
+    username: req.cookies["username"]
+  };
+  res.render("register", templateVars);
+});
+
+app.post("/register", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const id = generateRandomString();
+  res.cookie("id", id);
+  res.redirect("/urls");
 });
 
 app.get("/urls", (req, res) => {
