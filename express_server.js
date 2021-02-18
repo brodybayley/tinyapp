@@ -11,17 +11,18 @@ app.set("view engine", "ejs");
 
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" }
+  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
+  i4BoGq: { longURL: "https://www.facebook.com", userID: "bJ48lK" }
 };
 
 const users = {
-  "userRandomID": {
-    id: "userRandomID",
+  "aJ48lW": {
+    id: "aJ48lW",
     email: "bobtheduck@quackmail.com",
     password: "quazy"
   },
-  "user2RandomID": {
-    id: "user2RandomID",
+  "bJ48lK": {
+    id: "bJ48lK",
     email: "jerrytheduck@quackmail.com",
     password: "quackers"
   }
@@ -91,16 +92,21 @@ app.get("/urls/new", (req, res) => {
 const generateRandomString = () => Math.random().toString(36).substr(2, 6);
 
 app.post("/urls", (req, res) => {
+  const newEmail = req.body.email;
   const longURL = req.body.longURL;
-  const shortURL = generateRandomString();
-  urlDatabase[shortURL] = longURL;
-  res.redirect(`/urls/${shortURL}`);
+  const urlID = generateRandomString();
+  const newURL = {
+    longURL: longURL,
+    userID: getUserID(users, newEmail),
+  };
+  urlDatabase[urlID] = newURL;
+  res.redirect(`/urls/${urlID}`);
 });
 
 app.get("/urls/:shortURL", (req, res) => {
   const templateVars = {
     shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL],
+    longURL: urlDatabase[req.params.shortURL].longURL,
     user: users[req.cookies["user_id"]]
   };
   res.render("urls_show", templateVars);
