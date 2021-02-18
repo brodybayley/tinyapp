@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const bcrypt = require('bcrypt');
 const { emailCheck, getUserID, correctPassword, urlsForUser } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
