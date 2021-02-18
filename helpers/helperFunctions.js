@@ -18,4 +18,14 @@ const getUserID = (database, email) => {
   }
 };
 
-module.exports = { emailCheck, getUserID };
+const correctPassword = (database, password) => {
+  for (const registeredEmail in database) {
+    if (database[registeredEmail].password === password) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+};
+
+module.exports = { emailCheck, getUserID, correctPassword };

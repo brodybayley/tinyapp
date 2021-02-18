@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { emailCheck, getUserID } = require('./helpers/helperFunctions');
+const { emailCheck, getUserID, correctPassword } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,12 +37,12 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   const newEmail = req.body.email;
   const newPassword = req.body.password;
-  if (emailCheck(users, newEmail) && newPassword) {
+  if (emailCheck(users, newEmail) && correctPassword(users, newPassword)) {
     const userID = getUserID(users, newEmail);
     res.cookie("user_id", userID);
     res.redirect("/urls");
   } else {
-    res.redirect("/login");
+    res.redirect('https://http.cat/403');
   }
 });
 
