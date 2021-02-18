@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const { emailCheck, getUserID, correctPassword } = require('./helpers/helperFunctions');
+const { emailCheck, getUserID, correctPassword, urlsForUser } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,6 +25,11 @@ const users = {
     id: "bJ48lK",
     email: "jerrytheduck@quackmail.com",
     password: "quackers"
+  },
+  "cJ49lG": {
+    id: "cJ49lG",
+    email: "brody@hola.com",
+    password: "1234"
   }
 };
 
@@ -38,6 +43,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   const newEmail = req.body.email;
   const newPassword = req.body.password;
+  console.log(emailCheck(users, newEmail));
   if (emailCheck(users, newEmail) && correctPassword(users, newPassword)) {
     const userID = getUserID(users, newEmail);
     res.cookie("user_id", userID);
@@ -74,19 +80,12 @@ app.post("/register", (req, res) => {
 
 app.get("/urls", (req, res) => {
   const templateVars = {
-    urls: urlDatabase,
+    urls: urlsForUser(urlDatabase, req.cookies.user_id),
     user: users[req.cookies["user_id"]]
   };
   res.render("urls_index", templateVars);
 });
 
-const urlsForUser = id => {
-  for (const url in urls) {
-    console.log(url);
-  }
-};
-
-urlsForUser(id);
 
 app.get("/urls/new", (req, res) => {
   const templateVars = {
