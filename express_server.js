@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require('bcrypt');
-const { emailCheck, getUserID, correctPassword, urlsForUser } = require('./helpers/helperFunctions');
+const { emailCheck, getUserID, urlsForUser } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,17 +21,17 @@ const users = {
   "aJ48lW": {
     id: "aJ48lW",
     email: "bobtheduck@quackmail.com",
-    password: "quazy"
+    password: "$2b$10$T.WkgzlaOAJlUtKMk8Kl3OBL14J6Kl6vWJfDBJiziufaYfIoj2Luq"
   },
   "bJ48lK": {
     id: "bJ48lK",
     email: "jerrytheduck@quackmail.com",
-    password: "quackers"
+    password: "$2b$10$T.WkgzlaOAJlUtKMk8Kl3OBL14J6Kl6vWJfDBJiziufaYfIoj2Luq"
   },
   "cJ49lG": {
     id: "cJ49lG",
     email: "brody@hola.com",
-    password: "1234"
+    password: "$2b$10$T.WkgzlaOAJlUtKMk8Kl3OBL14J6Kl6vWJfDBJiziufaYfIoj2Luq"
   }
 };
 
@@ -43,14 +43,19 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const newEmail = req.body.email;
-  const newPassword = req.body.password;
-  if (emailCheck(users, newEmail) && correctPassword(users, newPassword)) {
-    const userID = getUserID(users, newEmail);
-    res.cookie("user_id", userID);
-    res.redirect("/urls");
+  const email = req.body.email;
+  const password = req.body.password;
+  const isUser = emailCheck(users, email);
+  if (isUser) {
+    const userID = getUserID(users, email);
+    if (bcrypt.compareSync(password, users[userID].password)) {
+      res.cookie("user_id", userID);
+      res.redirect("/urls");
+    } else {
+      res.status(401).send('Wrong username or password');
+    }
   } else {
-    res.redirect('https://http.cat/403');
+    res.status(401).redirect('https://http.cat/403');
   }
 });
 

@@ -8,21 +8,12 @@ const emailCheck = (database, email) => {
 };
 
 const getUserID = (database, email) => {
-  for (const registeredEmail in database) {
-    if (email === database[registeredEmail].email) {
-      return database[registeredEmail].id;
+  for (const id in database) {
+    if (email === database[id].email) {
+      return database[id].id;
     }
   }
   return {};
-};
-
-const correctPassword = (database, password) => {
-  for (const registeredEmail in database) {
-    if (database[registeredEmail].password === password) {
-      return true;
-    }
-  }
-  return false;
 };
 
 const urlsForUser = (database, id) => {
@@ -35,4 +26,4 @@ const urlsForUser = (database, id) => {
   return filteredData;
 };
 
-module.exports = { emailCheck, getUserID, correctPassword, urlsForUser };
+module.exports = { emailCheck, getUserID, urlsForUser };
