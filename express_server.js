@@ -128,9 +128,10 @@ app.post("/urls/:shortURL/edit", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  const username = req.body.username;
-  res.clearCookie("username", username);
-  res.redirect("/urls");
+  const username = req.body.email;
+  const userID = getUserID(users, username);
+  res.clearCookie("user_id", userID);
+  res.redirect("/login");
 });
 
 // app.get("/", (req, res) => {
