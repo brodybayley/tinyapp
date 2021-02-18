@@ -12,7 +12,8 @@ app.set("view engine", "ejs");
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
-  i4BoGq: { longURL: "https://www.facebook.com", userID: "bJ48lK" }
+  i4BoGq: { longURL: "https://www.facebook.com", userID: "bJ48lK" },
+  sgq3y6: { longURL: "https://www.today.com", userID: "cJ49lG" }
 };
 
 const users = {
@@ -43,7 +44,6 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   const newEmail = req.body.email;
   const newPassword = req.body.password;
-  console.log(emailCheck(users, newEmail));
   if (emailCheck(users, newEmail) && correctPassword(users, newPassword)) {
     const userID = getUserID(users, newEmail);
     res.cookie("user_id", userID);
@@ -130,14 +130,20 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.post("/urls/:shortURL/delete", (req, res) => {
+  const user = req.cookies.user_id;
   const shortURL = req.params.shortURL;
-  delete urlDatabase[shortURL];
+  if (user) {
+    delete urlDatabase[shortURL];
+  }
   res.redirect("/urls");
 });
 
 app.post("/urls/:shortURL/edit", (req, res) => {
+  const user = req.cookies.user_id;
   const shortURL = req.params.shortURL;
-  urlDatabase[shortURL].longURL = req.body.longURL;
+  if (user) {
+    urlDatabase[shortURL].longURL = req.body.longURL;
+  }
   res.redirect("/urls");
 });
 
