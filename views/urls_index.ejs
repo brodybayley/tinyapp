@@ -23,7 +23,7 @@
       <tbody>
         <% for(let url in urls) { %>
         <tr>
-          <td><%= url %></td>
+          <td><a href="/u/<%= url %>"><%= url %></a></td>
           <td><%= urls[url].longURL %></td>
           <td>
             <p style="background-color: white;" class="btn btn-primary" type="button"> <a style="text-decoration: none;"
