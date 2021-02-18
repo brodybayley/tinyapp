@@ -68,10 +68,11 @@ app.post("/register", (req, res) => {
   if (newEmail === '' || newPassword === '' || emailCheck(users, newEmail)) {
     res.redirect('https://http.cat/400');
   } else {
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
     const registerUser = {
       id: newID,
       email: newEmail,
-      password: newPassword
+      password: hashedPassword
     };
     users[newID] = registerUser;
     res.cookie("user_id", newID);
