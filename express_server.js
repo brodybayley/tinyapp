@@ -132,12 +132,24 @@ app.post("/urls", (req, res) => {
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  const templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL].longURL,
-    user: users[req.session.userID]
-  };
-  res.render("urls_show", templateVars);
+  console.log(urlDatabase);
+  const userURL = urlsForUser(urlDatabase, req.session.userID);
+  console.log(userURL);
+  if (!users[req.session.userID]) {
+    res.redirect("/login");
+  }
+  for (const id in userURL) {
+    if (id === req.params.shortURL) {
+      const templateVars = {
+        shortURL: req.params.shortURL,
+        longURL: urlDatabase[req.params.shortURL].longURL,
+        user: users[req.session.userID]
+      };
+      res.render("urls_show", templateVars);
+    } else {
+      res.status(401).send('This url is not associated with your account!');
+    }
+  }
 });
 
 app.get("/u/:shortURL", (req, res) => {

@@ -17,25 +17,34 @@
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/urls">My URLs</a>
-
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-item nav-link" href="/urls">My URLs</a>
+        </li>
         <% if (!user) { %>
-        <a class="nav-item nav-link" href="/login">Create New URL</a>
-        <a class="nav-item nav-link" href="/login">Login</a>
-        <a class="nav-item nav-link" href="/register">Register</a>
-        <% } else { %>
+        <li class="nav-item active">
+          <a class="nav-item nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-item nav-link" href="/register">Register</a>
+        </li>
+      </ul>
+      <% } else { %>
+      <li class="nav-item active">
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        <form class="form-inline" action="/logout" method="POST">
-          <div>
-            <a>Logged In As: <%=user.email%>!</a>
-            <button type="submit" class="btn btn-primary">Logout</button>
-          </div>
-        </form>
-        <% } %>
+      </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0" action="/logout" method="POST">
+        <li class="navbar-text">
+          <a>Logged In As: <%=user.email%>! </a>
+        </li>
+        <button type="submit" class="btn btn-light">Logout</button>
+      </form>
+    </div>
+    <% } %>
 
-      </div>
+    </div>
     </div>
   </nav>
 </header>
