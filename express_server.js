@@ -15,7 +15,7 @@ app.use(cookieSession({
 
 const urlDatabase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
-  i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
+  i3BoGr: { longURL: "https://www.hellobc.com", userID: "aJ48lW" },
   i4BoGq: { longURL: "https://www.facebook.com", userID: "bJ48lK" },
   sgq3y6: { longURL: "https://www.today.com", userID: "cJ49lG" }
 };
@@ -132,24 +132,15 @@ app.post("/urls", (req, res) => {
 });
 
 app.get("/urls/:shortURL", (req, res) => {
-  console.log(urlDatabase);
-  const userURL = urlsForUser(urlDatabase, req.session.userID);
-  console.log(userURL);
   if (!users[req.session.userID]) {
     res.redirect("/login");
   }
-  for (const id in userURL) {
-    if (id === req.params.shortURL) {
-      const templateVars = {
-        shortURL: req.params.shortURL,
-        longURL: urlDatabase[req.params.shortURL].longURL,
-        user: users[req.session.userID]
-      };
-      res.render("urls_show", templateVars);
-    } else {
-      res.status(401).send('This url is not associated with your account!');
-    }
-  }
+  const templateVars = {
+    shortURL: req.params.shortURL,
+    longURL: urlDatabase[req.params.shortURL].longURL,
+    user: users[req.session.userID]
+  };
+  res.render("urls_show", templateVars);
 });
 
 app.get("/u/:shortURL", (req, res) => {
