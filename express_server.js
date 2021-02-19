@@ -90,6 +90,14 @@ app.post("/register", (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  const templateVars = {
+    urls: urlsForUser(urlDatabase, req.session.userID),
+    user: users[req.session.userID]
+  };
+  res.render("urls_index", templateVars);
+});
+
 app.get("/urls", (req, res) => {
   const templateVars = {
     urls: urlsForUser(urlDatabase, req.session.userID),
@@ -160,9 +168,7 @@ app.post("/urls/:shortURL/edit", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  const username = req.body.email;
-  const userID = getUserByEmail(users, username);
-  res.clearCookie("user_id", userID);
+  req.session = null;
   res.redirect("/login");
 });
 
