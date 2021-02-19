@@ -2,22 +2,31 @@
   <header>
     <%- include('partials/_header') %>
   </header>
-  <div class="card text-center">
-    <div class="card-header"></div>
-    <div class="card-body">
-      <h5 class="card-title">TinyURL for: <%= longURL %></h5>
-      <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
-    </div>
-    <div class="card-footer text-muted"></div>
-    <h2 class="card-title">Edit</h2>
-    <form class="form-inline justify-content-center" action="/urls/<%= shortURL %>/edit" method="POST">
-      <div class="form-group mb-2">
-        <label for="longURL">New URL:</label>
-        <input class="form-control" type="text" name="longURL" placeholder="https://" style="width: 300px; margin: 1em">
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+  <main style="margin: 1em;">
+    <% if (!user) { %>
+    <h3>Log in to get started</h3>
+    <button type="button" class="btn btn-outline-primary"> <a href="/login">Login</a></button>
+    <% } else { %>
+    <div class="card text-center">
+      <div class="card-header"></div>
+      <div class="card-body">
+        <h5 class="card-title">TinyURL for: <%= longURL %></h5>
+        <p class="card-text">Short URL: <a href="/u/<%= shortURL %>"><%= shortURL %></a></p>
       </div>
-    </form>
-  </div>
+      <div class="card-footer text-muted"></div>
+      <h2 class="card-title">Edit</h2>
+      <form class="form-inline justify-content-center" action="/urls/<%= shortURL %>/edit" method="POST">
+        <div class="form-group mb-2">
+          <label for="longURL">New URL:</label>
+          <input class="form-control" type="text" name="longURL" placeholder="https://"
+            style="width: 300px; margin: 1em">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <% } %>
 </body>
+</main>
 
 </html>

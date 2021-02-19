@@ -14,3 +14,6 @@ GET /urls/new (will allow user to create a new short URL by inputting longURL)
 
 GET /urls/:shortURL (will provide user with clickable short URL, long URL and edit option)
 
+POST /urls (will generate short URL)
+
+

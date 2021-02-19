@@ -85,6 +85,7 @@ app.post("/register", (req, res) => {
     };
     users[newID] = registerUser;
     const userID = registerUser.id;
+    console.log(users);
     req.session.userID = userID;
     res.redirect("/urls");
   }
@@ -160,7 +161,9 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 app.post("/urls/:shortURL/edit", (req, res) => {
   const user = req.session.userID;
+  console.log(user);
   const shortURL = req.params.shortURL;
+  console.log(shortURL);
   if (user) {
     urlDatabase[shortURL].longURL = req.body.longURL;
   }
