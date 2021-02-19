@@ -1,4 +1,4 @@
-const emailCheck = (database, email) => {
+const validEmail = (database, email) => {
   for (const registeredEmail in database) {
     if (email === database[registeredEmail].email) {
       return true;
@@ -7,7 +7,7 @@ const emailCheck = (database, email) => {
   return false;
 };
 
-const getUserID = (database, email) => {
+const getUserByEmail = (database, email) => {
   for (const id in database) {
     if (email === database[id].email) {
       return database[id].id;
@@ -26,4 +26,4 @@ const urlsForUser = (database, id) => {
   return filteredData;
 };
 
-module.exports = { emailCheck, getUserID, urlsForUser };
+module.exports = { getUserByEmail, validEmail, urlsForUser };

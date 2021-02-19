@@ -2,13 +2,11 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');
-// const cookieParser = require("cookie-parser");
 const bcrypt = require('bcrypt');
-const { emailCheck, getUserID, urlsForUser } = require('./helpers/helperFunctions');
+const { validEmail, getUserByEmail, urlsForUser } = require('./helpers/helperFunctions');
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
 app.set("view engine", "ejs");
 app.use(cookieSession({
   name: 'session',
@@ -40,6 +38,7 @@ const users = {
   }
 };
 
+
 app.get("/login", (req, res) => {
   const templateVars = {
     user: users[req.session["user_id"]]
@@ -50,9 +49,9 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   const username = req.body.email;
   const password = req.body.password;
-  const isUser = emailCheck(users, username);
+  const isUser = validEmail(users, username);
   if (isUser) {
-    const userID = getUserID(users, username);
+    const userID = getUserByEmail(users, username);
     if (bcrypt.compareSync(password, users[userID].password)) {
       req.session.userID = userID;
       res.redirect("/urls");
@@ -75,7 +74,7 @@ app.post("/register", (req, res) => {
   const newEmail = req.body.email;
   const newPassword = req.body.password;
   const newID = generateRandomString();
-  if (newEmail === '' || newPassword === '' || emailCheck(users, newEmail)) {
+  if (newEmail === '' || newPassword === '' || validEmail(users, newEmail)) {
     res.redirect('https://http.cat/400');
   } else {
     const hashedPassword = bcrypt.hashSync(newPassword, 10);
@@ -162,7 +161,7 @@ app.post("/urls/:shortURL/edit", (req, res) => {
 
 app.post("/logout", (req, res) => {
   const username = req.body.email;
-  const userID = getUserID(users, username);
+  const userID = getUserByEmail(users, username);
   res.clearCookie("user_id", userID);
   res.redirect("/login");
 });
