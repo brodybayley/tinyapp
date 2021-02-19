@@ -13,7 +13,7 @@ const getUserByEmail = (database, email) => {
       return database[id].id;
     }
   }
-  return {};
+  return undefined;
 };
 
 const urlsForUser = (database, id) => {
