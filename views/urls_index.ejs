@@ -3,12 +3,10 @@
   <%- include('partials/_header') %>
 
   <main style="margin: 1em;">
-
+    </p>
     <% if (!user) { %>
     <h3>Log in to get started</h3>
-    <p style="background-color: white;" class="btn btn-primary" type="button"> <a style="text-decoration: none;"
-        href="/login">Login</a>
-    </p>
+    <button type="button" class="btn btn-outline-primary"> <a href="/login">Login</a></button>
     <% } else { %>
     <h3>My URLs</h3>
     <table class=" table">
@@ -38,5 +36,10 @@
         <% } %>
       </tbody>
     </table>
+    <div class="text-center">
+      <p class="font-weight-bold">
+        <a class="nav-link" href="/urls/new">Create a New Short Link</a>
+      </p>
+    </div>
     <% } %>
   </main>
