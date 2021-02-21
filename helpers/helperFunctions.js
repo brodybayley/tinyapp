@@ -26,6 +26,7 @@ const urlsForUser = (database, id) => {
   return filteredData;
 };
 
+//function to test that activeUser belongs to requested URL
 const isUserURL = (database, activeUser, urlID) => {
   const urlUserID = database[urlID].userID;
   if (activeUser === urlUserID) {
