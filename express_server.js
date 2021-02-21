@@ -3,7 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
-const { validEmail, getUserByEmail, urlsForUser } = require('./helpers/helperFunctions');
+const { validEmail, getUserByEmail, urlsForUser, isUserURL } = require('./helpers/helperFunctions');
+const { request } = require("express");
 const PORT = 8080;
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -131,10 +132,18 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${urlID}`);
 });
 
+
+
+
 app.get("/urls/:shortURL", (req, res) => {
-  if (!users[req.session.userID]) {
+  const activeUser = req.session.userID;
+  const requestedURL = req.params.shortURL;
+  console.log('url:', requestedURL);
+  if (!users[activeUser]) {
     res.redirect("/login");
   }
+  const userURLS = isUserURL(urlDatabase, activeUser, requestedURL);
+  console.log(userURLS);
   const templateVars = {
     shortURL: req.params.shortURL,
     longURL: urlDatabase[req.params.shortURL].longURL,
@@ -142,6 +151,8 @@ app.get("/urls/:shortURL", (req, res) => {
   };
   res.render("urls_show", templateVars);
 });
+
+
 
 app.get("/u/:shortURL", (req, res) => {
   const urlID = req.params.shortURL;

@@ -26,4 +26,13 @@ const urlsForUser = (database, id) => {
   return filteredData;
 };
 
-module.exports = { getUserByEmail, validEmail, urlsForUser };
+const isUserURL = (database, activeUser, urlID) => {
+  const urlUserID = database[urlID].userID;
+  if (activeUser === urlUserID) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+module.exports = { getUserByEmail, validEmail, urlsForUser, isUserURL };
