@@ -86,7 +86,6 @@ app.post("/register", (req, res) => {
     };
     users[newID] = registerUser;
     const userID = registerUser.id;
-    console.log(users);
     req.session.userID = userID;
     res.redirect("/urls");
   }
@@ -133,26 +132,26 @@ app.post("/urls", (req, res) => {
 });
 
 
-
-
 app.get("/urls/:shortURL", (req, res) => {
   const activeUser = req.session.userID;
   const requestedURL = req.params.shortURL;
-  console.log('url:', requestedURL);
+  //checking to see if user logged in
   if (!users[activeUser]) {
     res.redirect("/login");
   }
-  const userURLS = isUserURL(urlDatabase, activeUser, requestedURL);
-  console.log(userURLS);
-  const templateVars = {
-    shortURL: req.params.shortURL,
-    longURL: urlDatabase[req.params.shortURL].longURL,
-    user: users[req.session.userID]
-  };
-  res.render("urls_show", templateVars);
+  const validUserURL = isUserURL(urlDatabase, activeUser, requestedURL);
+  //checking to see if user is associated to requested URL
+  if (!validUserURL) {
+    res.status(401).send('URL not associated to this account');
+  } else {
+    const templateVars = {
+      shortURL: req.params.shortURL,
+      longURL: urlDatabase[req.params.shortURL].longURL,
+      user: users[req.session.userID]
+    };
+    res.render("urls_show", templateVars);
+  }
 });
-
-
 
 app.get("/u/:shortURL", (req, res) => {
   const urlID = req.params.shortURL;
@@ -175,9 +174,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 app.post("/urls/:shortURL/edit", (req, res) => {
   const user = req.session.userID;
-  console.log(user);
   const shortURL = req.params.shortURL;
-  console.log(shortURL);
   if (user) {
     urlDatabase[shortURL].longURL = req.body.longURL;
   }
